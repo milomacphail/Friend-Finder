@@ -11,8 +11,12 @@ router.get('/friends', function(req, res){
 
 //add new friend
 router.post('/friends', function(req, res){
-   console.log('GET request made');
-   res.send({type: 'POST'});
+   console.log(req.body);
+   res.send({
+       type: 'POST',
+       name: req.body.name,
+       job: req.body.job
+   });
 });
 
 //edit information about friend
