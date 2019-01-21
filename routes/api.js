@@ -1,6 +1,7 @@
 //require express
 const express = require('express');
 const router = express.Router();
+const Friend = require('../models/friends');
 
 
 //get request to see all nearby friends
@@ -11,12 +12,10 @@ router.get('/friends', function(req, res){
 
 //add new friend
 router.post('/friends', function(req, res){
-   console.log(req.body);
-   res.send({
-       type: 'POST',
-       name: req.body.name,
-       job: req.body.job
+   Friend.create(req.body).then(function(friend){
+      res.send(friend)
    });
+   
 });
 
 //edit information about friend

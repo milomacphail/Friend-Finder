@@ -7,7 +7,7 @@ const FriendSchema = new Schema ({
         type: String,
         required: [true, "name field is required"]
     },
-    rank: {
+    job: {
         type: String
     },
     available: {
