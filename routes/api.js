@@ -6,8 +6,17 @@ const Friend = require('../models/friends');
 
 //get request to see all nearby friends
 router.get('/friends', function(req, res){
-   console.log('GET request made');
-   res.send({type: 'GET'});
+   Friend.aggregate().near({
+   near: {
+    'type': 'Point',
+    'coordinates': [parseFloat(req.query.lng), parseFloat(req.query.lat)]
+   },
+   maxDistance: 100000,
+   spherical: true,
+   distanceField: "dis"
+  }).then(function(friends){
+     res.send(friends);
+  });
 });
 
 //add new friend
