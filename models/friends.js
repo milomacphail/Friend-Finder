@@ -1,11 +1,24 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//create geolocation Schema
+const GeoSchema = new Schema({
+   type: {
+       type: String,
+       default: "Point"
+   },
+   coordinates: {
+       type: [Number],
+       index: "2dsphere"
+   }
+});
+
+
 //create friend schema
 const FriendSchema = new Schema ({
     name: {
         type: String,
-        required: [true, "name field is required"]
+        required: [true, "Name field is required"]
     },
     job: {
         type: String
@@ -13,10 +26,8 @@ const FriendSchema = new Schema ({
     available: {
         type: Boolean,
         default: false
-    }
-//add in geolocation
-
-    
+    },
+    geometry: GeoSchema
 });
 
 const Friend = mongoose.model("friend", FriendSchema);
