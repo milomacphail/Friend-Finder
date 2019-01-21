@@ -19,15 +19,16 @@ router.post('/friends', function(req, res, next){
 });
 
 //edit information about friend
-router.get('/friends/:id', function(req, res, next){
+router.put('/friends/:id', function(req, res, next){
    console.log('Information updated successfully');
    res.send({type: 'PUT'});
 });
 
 //delete friend
-router.get('/friends/:id', function(req, res, next){
-   console.log(`Friend deleted`);
-   res.send({type: 'DELETE'});
+router.delete('/friends/:id', function(req, res, next){
+   Friend.findByIdAndRemove({_id:req.params.id}).then(function(friend){
+      res.send(friend);
+   });
 });
 
 module.exports =  router;
