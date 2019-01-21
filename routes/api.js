@@ -20,8 +20,9 @@ router.post('/friends', function(req, res, next){
 
 //edit information about friend
 router.put('/friends/:id', function(req, res, next){
-   console.log('Information updated successfully');
-   res.send({type: 'PUT'});
+   Friend.findByIdAndUpdate({_id:req.params.id}, req.body, {new: true}).then(function(friend){
+      res.send(friend);
+   });
 });
 
 //delete friend
