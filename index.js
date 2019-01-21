@@ -12,6 +12,13 @@ app.use(bodyParser.json());
 //access router
 app.use('/api', routes);
 
+//error handling
+app.use(function(err, req, res, next){
+   //console.log(err); 
+   res.status(422).send({error: 'Name property is required.'});
+   
+});
+
 //DB config
 const db = require('./config/keys').mongoURI;
 
