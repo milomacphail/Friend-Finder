@@ -7,6 +7,8 @@ const routes = require('./routes/api');
 //create express app
 const app = express();
 
+app.use(express.static('public'));
+
 app.use(bodyParser.json());
 
 //access router
