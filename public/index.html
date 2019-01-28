@@ -4,15 +4,72 @@
             <meta charset="utf-8">
             <title>FriendFinder</title>
             <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-            <link= "/styles.css" rel="stylesheet" type="text/css"/>
+            <link href="styles.css" rel="stylesheet" />
         </head>
         <body>
-            <H1 class="title">Find your friends</H1>
+            <h1 class="title">Find your friends</h1>
                 <div id="homepage">
-                    <div id="friends">
-                        
-                    </div>
+                    <h1>Seriously, where are they?</h1>    
+                    <div id="friends"></div>
                 </div>
-            <script src="https://unpkg.com/babel-standalone@7/babel.min.js"></script>
+                
+                
+                <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+                <script src="https://unpkg.com/react@15/dist/react.js"></script>
+                <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+                
+                <script type="text/babel">
+                
+                var Friends = React.createClass({
+                    getInitialState: function(){
+                        return({
+                            friends: []
+                        });
+                    },
+                    
+                    render: function() {
+                        let friends = this.state.friends;
+                        friends = friends.map(function(friend, index){
+                            return (
+                                <li key={index}>
+                                    <span className={friend.obj.available}></span>
+                                    <span className="name">{friend.obj.name}></span>
+                                    <span className="job">{friend.obj.job}></span>
+                                    <span className="dist">{Math.floor(friend.dis/1000)}</span>
+                                </li>
+                            );
+                        });
+                        return(
+                            <div id="friend-container">
+                                <form id="search" onSubmit={this.handleSubmit}>
+                                    <label>Enter your latitude: </label>
+                                    <input type="text" ref="lat" placeholder="latitude" required/>
+                                    <label>Enter your longitude: </label>
+                                    <input type="text" ref="long" placeholder="longitude" required/>
+                                    <input type="submit" value="Find friends"/>
+                                </form>
+                                <ul>{friends}</ul>
+                            </div>
+                        );
+                    },
+                    handleSubmit: function(e){
+                        e.preventDefault();
+                        const long = this.refs.long.value;
+                        const lat = this.refs.lat.value;
+                        
+                        fetch('/api/friends/?long=' + long + "&lat=" + lat).then(function(data){
+                           return data.json(); 
+                        }).then( json => {
+                           this.setState({
+                               friends: json
+                           }) 
+                        });
+                    }
+                });
+        
+                ReactDOM.render(<Friends />, document.getElementById("friends"))
+            </script>
+            
         </body>
     </html>
